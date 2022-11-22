@@ -1,0 +1,10 @@
+version: "3"
+
+services:
+  webapp:
+    image: mcr.microsoft.com/devcontainers/typescript-node:16-bullseye
+    command: sleep infinity
+    volumes:
+      - ./:/workspace:z
+      - .vscode-server/:/home/node/.vscode-server:z
+      - .npm/:/home/node/.npm

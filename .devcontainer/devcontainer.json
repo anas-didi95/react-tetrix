@@ -1,6 +1,8 @@
 {
   "name": "Node.js & TypeScript",
-  "image": "mcr.microsoft.com/devcontainers/typescript-node:16-bullseye"
+  "dockerComposeFile": "../docker-compose.yml",
+  "service": "webapp",
+  "workspaceFolder": "/workspace"
 
   // Features to add to the dev container. More info: https://containers.dev/features.
   // "features": {},
