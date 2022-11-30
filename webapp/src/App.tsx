@@ -1,4 +1,4 @@
-import { useRef, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import "./App.css"
 
 var COLS = 10,
@@ -62,7 +62,11 @@ const App: React.FC<{}> = () => {
     freezed = true
   }
   // checks if the resulting position of current shape will be feasible
-  const valid = (offsetX: number, offsetY: number, newCurrent?: number[][]) => {
+  const valid = (
+    offsetX: number,
+    offsetY?: number,
+    newCurrent?: number[][]
+  ) => {
     offsetX = offsetX || 0
     offsetY = offsetY || 0
     offsetX = currentX + offsetX
@@ -196,6 +200,68 @@ const App: React.FC<{}> = () => {
     setOnPlay(true)
     newGame()
   }
+
+  // returns rotates the rotated shape 'current' perpendicularly anticlockwise
+  const rotate = (current: number[][]) => {
+    var newCurrent: number[][] = []
+    for (var y = 0; y < 4; ++y) {
+      newCurrent[y] = []
+      for (var x = 0; x < 4; ++x) {
+        newCurrent[y][x] = current[3 - x][y]
+      }
+    }
+
+    return newCurrent
+  }
+  const keyPress = (key: string) => {
+    switch (key) {
+      case "left":
+        if (valid(-1)) {
+          --currentX
+        }
+        break
+      case "right":
+        if (valid(1)) {
+          ++currentX
+        }
+        break
+      case "down":
+        if (valid(0, 1)) {
+          ++currentY
+        }
+        break
+      case "rotate":
+        var rotated = rotate(current)
+        if (valid(0, 0, rotated)) {
+          current = rotated
+        }
+        break
+      case "drop":
+        while (valid(0, 1)) {
+          ++currentY
+        }
+        tick()
+        break
+    }
+  }
+  useEffect(() => {
+    document.body.onkeydown = function (e) {
+      var keys = {
+        37: "left",
+        39: "right",
+        40: "down",
+        38: "rotate",
+        32: "drop",
+      }
+      //@ts-ignore
+      if (typeof keys[e.keyCode] != "undefined") {
+        //@ts-ignore
+        keyPress(keys[e.keyCode])
+        render()
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <div className="App">
