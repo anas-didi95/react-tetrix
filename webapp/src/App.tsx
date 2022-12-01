@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react"
 import "./App.css"
 import Canvas from "./components/Canvas"
 import PlayButton from "./components/PlayButton"
+import { useGameContext } from "./contexts/GameContext"
 
 var COLS = 10,
   ROWS = 20
@@ -29,7 +30,8 @@ var BLOCK_W = W / COLS,
 
 const App: React.FC<{}> = () => {
   const [onPlay, setOnPlay] = useState(false)
-  const canvasRef = useRef<HTMLCanvasElement>(null)
+  //const canvasRef = useRef<HTMLCanvasElement>(null)
+  const { canvasRef } = useGameContext()
 
   // check if any lines are filled and clear them
   const clearLines = () => {
@@ -117,7 +119,7 @@ const App: React.FC<{}> = () => {
   }
   // draw a single square at (x, y)
   const drawBlock = (x: number, y: number) => {
-    const ctx = canvasRef.current?.getContext("2d")
+    const ctx = canvasRef?.current?.getContext("2d")
     if (!ctx) return
 
     ctx.fillRect(BLOCK_W * x, BLOCK_H * y, BLOCK_W - 1, BLOCK_H - 1)
@@ -126,7 +128,7 @@ const App: React.FC<{}> = () => {
 
   // draws the board and the moving shape
   const render = () => {
-    const ctx = canvasRef.current?.getContext("2d")
+    const ctx = canvasRef?.current?.getContext("2d")
     if (!ctx) return
 
     ctx.clearRect(0, 0, W, H)
