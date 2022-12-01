@@ -1,11 +1,10 @@
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useState } from "react"
 import "./App.css"
 import Canvas from "./components/Canvas"
 import PlayButton from "./components/PlayButton"
 import { useGameContext } from "./contexts/GameContext"
+import { COLORS, COLS, HEIGHT, ROWS, SHAPES, WIDTH } from "./utils/contants"
 
-var COLS = 10,
-  ROWS = 20
 var board: number[][] = []
 var lose: boolean = false
 var interval: NodeJS.Timer
@@ -13,24 +12,11 @@ var intervalRender: NodeJS.Timer
 var current: number[][] // current moving shape
 var currentX: number, currentY: number // position of current shape
 var freezed: boolean // is current shape settled on the board?
-var shapes = [
-  [1, 1, 1, 1],
-  [1, 1, 1, 0, 1],
-  [1, 1, 1, 0, 0, 0, 1],
-  [1, 1, 0, 0, 1, 1],
-  [1, 1, 0, 0, 0, 1, 1],
-  [0, 1, 1, 0, 1, 1],
-  [0, 1, 0, 0, 1, 1, 1],
-]
-var colors = ["cyan", "orange", "blue", "yellow", "red", "green", "purple"]
-var W = 300,
-  H = 600
-var BLOCK_W = W / COLS,
-  BLOCK_H = H / ROWS
+var BLOCK_W = WIDTH / COLS,
+  BLOCK_H = HEIGHT / ROWS
 
 const App: React.FC<{}> = () => {
   const [onPlay, setOnPlay] = useState(false)
-  //const canvasRef = useRef<HTMLCanvasElement>(null)
   const { canvasRef } = useGameContext()
 
   // check if any lines are filled and clear them
@@ -131,13 +117,13 @@ const App: React.FC<{}> = () => {
     const ctx = canvasRef?.current?.getContext("2d")
     if (!ctx) return
 
-    ctx.clearRect(0, 0, W, H)
+    ctx.clearRect(0, 0, WIDTH, HEIGHT)
 
     ctx.strokeStyle = "black"
     for (var x = 0; x < COLS; ++x) {
       for (var y = 0; y < ROWS; ++y) {
         if (board[y][x]) {
-          ctx.fillStyle = colors[board[y][x] - 1]
+          ctx.fillStyle = COLORS[board[y][x] - 1]
           drawBlock(x, y)
         }
       }
@@ -148,7 +134,7 @@ const App: React.FC<{}> = () => {
     for (var y = 0; y < 4; ++y) {
       for (var x = 0; x < 4; ++x) {
         if (current[y][x]) {
-          ctx.fillStyle = colors[current[y][x] - 1]
+          ctx.fillStyle = COLORS[current[y][x] - 1]
           drawBlock(currentX + x, currentY + y)
         }
       }
@@ -157,8 +143,8 @@ const App: React.FC<{}> = () => {
   // creates a new 4x4 shape in global variable 'current'
   // 4x4 so as to cover the size when the shape is rotated
   const newShape = () => {
-    var id = Math.floor(Math.random() * shapes.length)
-    var shape = shapes[id] // maintain id for color filling
+    var id = Math.floor(Math.random() * SHAPES.length)
+    var shape = SHAPES[id] // maintain id for color filling
 
     current = []
     for (var y = 0; y < 4; ++y) {
