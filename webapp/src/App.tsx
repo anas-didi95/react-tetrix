@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import "./App.css"
+import PlayButton from "./components/PlayButton"
 
 var COLS = 10,
   ROWS = 20
@@ -266,9 +267,7 @@ const App: React.FC<{}> = () => {
   return (
     <div className="App">
       <canvas ref={canvasRef} width="300" height="600" />
-      <button id="playbutton" disabled={onPlay} onClick={handlePlay}>
-        Play
-      </button>
+      <PlayButton onPlay={onPlay} handlePlay={handlePlay} />
     </div>
   )
 }
