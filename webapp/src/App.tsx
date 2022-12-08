@@ -3,7 +3,7 @@ import "./App.css"
 import Canvas from "./components/Canvas"
 import PlayButton from "./components/PlayButton"
 import { useGameContext } from "./contexts/GameContext"
-import { newGame, render } from "./utils/engine"
+import { newGame, render, keyPress } from "./utils/engine"
 
 const App: React.FC<{}> = () => {
   const [onPlay, setOnPlay] = useState(false)

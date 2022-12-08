@@ -54,8 +54,8 @@ function valid(offsetX: number, offsetY?: number, newCurrent?: number[][]) {
   offsetY = currentY + offsetY
   newCurrent = newCurrent || current
 
-  for (var y = 0; y < 4; ++y) {
-    for (var x = 0; x < 4; ++x) {
+  for (let y = 0; y < 4; ++y) {
+    for (let x = 0; x < 4; ++x) {
       if (newCurrent[y][x]) {
         if (
           typeof board[y + offsetY] == "undefined" ||
@@ -65,7 +65,7 @@ function valid(offsetX: number, offsetY?: number, newCurrent?: number[][]) {
           y + offsetY >= ROWS ||
           x + offsetX >= COLS
         ) {
-          if (offsetY == 1 && freezed) {
+          if (offsetY === 1 && freezed) {
             lose = true // lose if the current shape is settled at the top most row
             //setOnPlay(false)
             //document.getElementById('playbutton').disabled = false;
@@ -113,8 +113,8 @@ export function render() {
   ctx.clearRect(0, 0, WIDTH, HEIGHT)
 
   ctx.strokeStyle = "black"
-  for (var x = 0; x < COLS; ++x) {
-    for (var y = 0; y < ROWS; ++y) {
+  for (let x = 0; x < COLS; ++x) {
+    for (let y = 0; y < ROWS; ++y) {
       if (board[y][x]) {
         ctx.fillStyle = COLORS[board[y][x] - 1]
         drawBlock(x, y)
@@ -124,8 +124,8 @@ export function render() {
 
   ctx.fillStyle = "red"
   ctx.strokeStyle = "black"
-  for (var y = 0; y < 4; ++y) {
-    for (var x = 0; x < 4; ++x) {
+  for (let y = 0; y < 4; ++y) {
+    for (let x = 0; x < 4; ++x) {
       if (current[y][x]) {
         ctx.fillStyle = COLORS[current[y][x] - 1]
         drawBlock(currentX + x, currentY + y)
@@ -134,18 +134,18 @@ export function render() {
   }
 }
 
-// creates a new 4x4 shape in global variable 'current'
+// creates a new 4x4 shape in global letiable 'current'
 // 4x4 so as to cover the size when the shape is rotated
 function newShape() {
   console.log("newShapre")
-  var id = Math.floor(Math.random() * SHAPES.length)
-  var shape = SHAPES[id] // maintain id for color filling
+  let id = Math.floor(Math.random() * SHAPES.length)
+  let shape = SHAPES[id] // maintain id for color filling
 
   current = []
-  for (var y = 0; y < 4; ++y) {
+  for (let y = 0; y < 4; ++y) {
     current[y] = []
-    for (var x = 0; x < 4; ++x) {
-      var i = 4 * y + x
+    for (let x = 0; x < 4; ++x) {
+      let i = 4 * y + x
       if (typeof shape[i] != "undefined" && shape[i]) {
         current[y][x] = id + 1
       } else {
@@ -163,9 +163,9 @@ function newShape() {
 
 // clears the board
 function init() {
-  for (var y = 0; y < ROWS; ++y) {
+  for (let y = 0; y < ROWS; ++y) {
     board[y] = []
-    for (var x = 0; x < COLS; ++x) {
+    for (let x = 0; x < COLS; ++x) {
       board[y][x] = 0
     }
   }
@@ -189,10 +189,10 @@ export function newGame(ref: RefObject<HTMLCanvasElement> | null) {
 
 // returns rotates the rotated shape 'current' perpendicularly anticlockwise
 function rotate(current: number[][]) {
-  var newCurrent: number[][] = []
-  for (var y = 0; y < 4; ++y) {
+  let newCurrent: number[][] = []
+  for (let y = 0; y < 4; ++y) {
     newCurrent[y] = []
-    for (var x = 0; x < 4; ++x) {
+    for (let x = 0; x < 4; ++x) {
       newCurrent[y][x] = current[3 - x][y]
     }
   }
@@ -200,7 +200,7 @@ function rotate(current: number[][]) {
   return newCurrent
 }
 
-function keyPress(key: string) {
+export function keyPress(key: string) {
   switch (key) {
     case "left":
       if (valid(-1)) {
@@ -218,7 +218,7 @@ function keyPress(key: string) {
       }
       break
     case "rotate":
-      var rotated = rotate(current)
+      let rotated = rotate(current)
       if (valid(0, 0, rotated)) {
         current = rotated
       }
