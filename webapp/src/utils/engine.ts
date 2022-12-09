@@ -1,5 +1,6 @@
 import { RefObject } from "react"
 import { WIDTH, COLS, HEIGHT, ROWS, COLORS, SHAPES } from "./contants"
+import SoundPop from "../assets/sound_pop.ogg"
 
 let board: number[][] = []
 let lose: boolean = false
@@ -23,7 +24,7 @@ function clearLines() {
       }
     }
     if (rowFilled) {
-      //document.getElementById( 'clearsound' ).play();
+      new Audio(SoundPop).play()
       for (let yy = y; yy > 0; --yy) {
         for (let x = 0; x < COLS; ++x) {
           board[yy][x] = board[yy - 1][x]
