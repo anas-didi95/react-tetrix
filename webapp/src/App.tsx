@@ -15,22 +15,10 @@ const App: React.FC<{}> = () => {
   }
 
   useEffect(() => {
-    document.body.onkeydown = function (e) {
-      var keys = {
-        37: "left",
-        39: "right",
-        40: "down",
-        38: "rotate",
-        32: "drop",
-      }
-      //@ts-ignore
-      if (typeof keys[e.keyCode] != "undefined") {
-        //@ts-ignore
-        keyPress(keys[e.keyCode])
-        render()
-      }
+    document.body.onkeydown = (e) => {
+      keyPress(e.key)
+      render()
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (

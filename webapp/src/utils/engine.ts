@@ -202,28 +202,28 @@ function rotate(current: number[][]) {
 
 export function keyPress(key: string) {
   switch (key) {
-    case "left":
+    case "ArrowLeft":
       if (valid(-1)) {
         --currentX
       }
       break
-    case "right":
+    case "ArrowRight":
       if (valid(1)) {
         ++currentX
       }
       break
-    case "down":
+    case "ArrowDown":
       if (valid(0, 1)) {
         ++currentY
       }
       break
-    case "rotate":
+    case "ArrowUp":
       let rotated = rotate(current)
       if (valid(0, 0, rotated)) {
         current = rotated
       }
       break
-    case "drop":
+    case " ":
       while (valid(0, 1)) {
         ++currentY
       }
